@@ -1,4 +1,4 @@
-const { isProfesor } = require('../../middlewares/auth.middlewares')
+const { isProfesor, isAlumn } = require('../../middlewares/auth.middlewares')
 const {
   getSubjects,
   postSubject,
@@ -8,8 +8,8 @@ const {
 } = require('../controllers/asignaturas')
 const subjectsRoutes = require('express').Router()
 // Solo los alumnos del curso pueden ver las asignaturas
-subjectsRoutes.get('/', getSubjects)
-subjectsRoutes.get('/:id', getOneSubject)
+subjectsRoutes.get('/', [isAlumn], getSubjects)
+subjectsRoutes.get('/:id', [isAlumn], getOneSubject)
 // Solo los profesores pueden: crear, modificar o eliminar una asignatura
 subjectsRoutes.post('/', [isProfesor], postSubject)
 subjectsRoutes.put('/:id', [isProfesor], updateSubject)
