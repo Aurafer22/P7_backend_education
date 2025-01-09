@@ -9,6 +9,15 @@ const getSubjects = async (req, res, next) => {
   }
 }
 
+// const getSubjects = async (req, res, next) => {
+//   try {
+//     const subjects = await Subject.find()
+//     return res.status(200).json(subjects)
+//   } catch (error) {
+//     return res.status(400).json(`Asignaturas no encontradas: ${error}`)
+//   }
+// }
+
 const getOneSubject = async (req, res, next) => {
   try {
     const { id } = req.params
@@ -28,6 +37,7 @@ const postSubject = async (req, res, next) => {
     }
     const newSubject = new Subject({
       name: req.body.name,
+      courses: req.body.courses,
       teacher: req.body.teacher,
       level: req.body.level,
       documents: req.body.documents
@@ -42,16 +52,24 @@ const postSubject = async (req, res, next) => {
 const updateSubject = async (req, res, next) => {
   try {
     const { id } = req.params
-    const { teacher, documents } = req.body
+    const { course, teacher, documents } = req.body
     const subject = await Subject.findById(id)
     if (!subject) {
       return res.status(400).json('Esta asignatura NO EXISTE')
     }
-    const modifySubject = await Subject.findByIdAndUpdate(
-      id,
-      { teacher, $addToSet: { documents: { $each: documents } } },
-      { new: true }
-    )
+    const updateData = {}
+    if (course) {
+      updateData.course = course
+    }
+    if (teacher) {
+      updateData.teacher = teacher
+    }
+    if (documents) {
+      updateData.$addToSet = { documents: { $each: documents } }
+    }
+    const modifySubject = await Subject.findByIdAndUpdate(id, updateData, {
+      new: true
+    })
     return res.status(200).json(modifySubject)
   } catch (error) {
     return res.status(400).json(`Error al modificar la asignatura: ${error}`)

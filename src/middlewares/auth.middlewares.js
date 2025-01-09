@@ -46,15 +46,22 @@ const isAlumn = async (req, res, next) => {
   if (!id) {
     return res.status(401).json('Token inválido')
   }
-  const user = await User.findById(id)
-  const { courseId } = req.params
-  const courseObjetId = new mongoose.Types.ObjectId(courseId)
+  const user = await User.findById(id).populate('courses')
+  const paramId = req.params.id
+  const idCourseUser = user.courses._id
+  const idUserToString = idCourseUser.toString()
+
+  const subjectId = user.courses.subjects.toString()
   try {
-    if (user.courses.includes(courseObjetId) || user.rol === 'profesor') {
+    if (
+      idUserToString === paramId ||
+      user.rol === 'profesor' ||
+      subjectId.includes(paramId)
+    ) {
       req.user = user
       next()
     } else {
-      return res.status(403).json('No tienes acceso a este curso')
+      return res.status(403).json('No tienes acceso a esta información')
     }
   } catch (error) {
     return res.status(500).json(`Error en la autenticación: ${error}`)

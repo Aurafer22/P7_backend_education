@@ -23,7 +23,9 @@ async function registerUser(req, res, next) {
 
 async function loginUser(req, res, next) {
   try {
-    const user = await User.findOne({ email: req.body.email })
+    const user = await User.findOne({ email: req.body.email }).populate(
+      'courses'
+    )
     if (!user) {
       return res.status(400).json('Usuario o contraseña incorrectos')
     }

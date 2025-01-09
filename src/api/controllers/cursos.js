@@ -4,7 +4,7 @@ const subjects = require('../../utils/data')
 
 const getCourses = async (req, res, next) => {
   try {
-    const courses = await Course.find().populate('subjects')
+    const courses = await Course.find()
     return res.status(200).json(courses)
   } catch (error) {
     return res.status(400).json(error)
@@ -54,12 +54,16 @@ const updateCourse = async (req, res, next) => {
     if (!courseById) {
       return res.status(400).json('Este curso no existe')
     }
-    const modifyCourse = await Course.findByIdAndUpdate(
-      id,
-      { $addToSet: { subjects: { $each: subjects } } },
-      tuthor,
-      { new: true }
-    )
+    const updateData = {}
+    if (subjects) {
+      updateData.$addToSet = { subjects: { $each: subjects } }
+    }
+    if (tuthor) {
+      updateData.tuthor = tuthor
+    }
+    const modifyCourse = await Course.findByIdAndUpdate(id, updateData, {
+      new: true
+    })
     return res.status(200).json(modifyCourse)
   } catch (error) {
     return res.status(400).json(`Error al hacer cambios en el curso: ${error}`)
