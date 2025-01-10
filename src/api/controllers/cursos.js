@@ -66,7 +66,7 @@ const updateCourse = async (req, res, next) => {
     })
     return res.status(200).json(modifyCourse)
   } catch (error) {
-    return res.status(400).json(`Error al hacer cambios en el curso: ${error}`)
+    return res.status(400).json(`Error al actualizar datos del curso: ${error}`)
   }
 }
 

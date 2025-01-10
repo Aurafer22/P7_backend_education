@@ -9,15 +9,6 @@ const getSubjects = async (req, res, next) => {
   }
 }
 
-// const getSubjects = async (req, res, next) => {
-//   try {
-//     const subjects = await Subject.find()
-//     return res.status(200).json(subjects)
-//   } catch (error) {
-//     return res.status(400).json(`Asignaturas no encontradas: ${error}`)
-//   }
-// }
-
 const getOneSubject = async (req, res, next) => {
   try {
     const { id } = req.params

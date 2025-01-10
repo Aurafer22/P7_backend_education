@@ -12,7 +12,9 @@ mongoose
       await Subject.collection.drop()
     }
   })
-  .catch((error) => console.log(`Error al eliminar la colección: ${error}`))
+  .catch((error) =>
+    console.log(`Error al eliminar la colección desde semilla: ${error}`)
+  )
   .then(async () => {
     await Subject.insertMany(subjects)
   })

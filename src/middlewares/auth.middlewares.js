@@ -12,7 +12,7 @@ const isAuth = async (req, res, next) => {
     req.user = await User.findById(id)
     next()
   } catch (error) {
-    return res.status(401).json('No estás autorizado')
+    return res.status(401).json('Acceso NO AUTORIZADO')
   }
 }
 
@@ -50,18 +50,23 @@ const isAlumn = async (req, res, next) => {
   const paramId = req.params.id
   const idCourseUser = user.courses._id
   const idUserToString = idCourseUser.toString()
-
   const subjectId = user.courses.subjects.toString()
+  const userId = user._id
+
+  const userIdString = userId.toString()
   try {
     if (
       idUserToString === paramId ||
       user.rol === 'profesor' ||
-      subjectId.includes(paramId)
+      subjectId.includes(paramId) ||
+      paramId === userIdString
     ) {
+      console.log(paramId === userIdString)
+
       req.user = user
       next()
     } else {
-      return res.status(403).json('No tienes acceso a esta información')
+      return res.status(403).json('Acceso NO AUTORIZADO')
     }
   } catch (error) {
     return res.status(500).json(`Error en la autenticación: ${error}`)
