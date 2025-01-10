@@ -88,8 +88,6 @@ const updateUser = async (req, res, next) => {
 }
 
 const upRolYCourse = async (req, res, next) => {
-  console.log('Controlador upRolYCourse iniciado')
-  console.log('Cuerpo de la solicitud:', req.body)
   try {
     const { id } = req.params
     const user = await User.findById(id)
@@ -104,8 +102,6 @@ const upRolYCourse = async (req, res, next) => {
     if (courses) {
       updateData.courses = courses
     }
-    console.log(updateData)
-
     const modifyRol = await User.findByIdAndUpdate(id, updateData, {
       new: true
     })

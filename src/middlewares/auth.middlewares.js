@@ -61,8 +61,6 @@ const isAlumn = async (req, res, next) => {
       subjectId.includes(paramId) ||
       paramId === userIdString
     ) {
-      console.log(paramId === userIdString)
-
       req.user = user
       next()
     } else {

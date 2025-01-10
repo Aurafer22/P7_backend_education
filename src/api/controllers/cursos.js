@@ -25,10 +25,8 @@ const getOneCourse = async (req, res, next) => {
 
 const postCourse = async (req, res, next) => {
   try {
-    const { course, tuthor } = req.body
-    const dupliCourse = await Course.findOne({
-      $and: [{ course }, { tuthor }]
-    })
+    const { course } = req.body
+    const dupliCourse = await Course.findOne({ course })
     if (dupliCourse) {
       return res.status(400).json('Este curso ya existe')
     }
