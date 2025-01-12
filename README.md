@@ -1,4 +1,4 @@
-# Gestor de Librerías y Libros
+# Gestor Entidad Educativa
 
 Este proyecto es una API RESTful Auth para gestionar el material formativo en una entidad educativa, diseñada para practicar conocimientos básicos de backend. Utiliza **Node.js**, **Express**, **JWT**, **Bcrypt**, y **MongoDB Atlas** como base de datos.
 
