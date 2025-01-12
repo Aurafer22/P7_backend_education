@@ -17,8 +17,8 @@ coursesRoutes.get('/', getCourses)
 // Solo los alumnos del curso pueden ver este curso con sus asignaturas
 coursesRoutes.get('/:id', [isAlumn], getOneCourse)
 // Solo los profesores pueden: crear, modificar o eliminar un curso
-coursesRoutes.post('/', [isProfesor], postCourse)
-coursesRoutes.put('/:id', [isProfesor], updateCourse)
-coursesRoutes.delete('/:id', [isProfesor], deleteCourse)
+coursesRoutes.post('/', [isAuth, isProfesor], postCourse)
+coursesRoutes.put('/:id', [isAuth, isProfesor], updateCourse)
+coursesRoutes.delete('/:id', [isAuth, isProfesor], deleteCourse)
 
 module.exports = coursesRoutes
